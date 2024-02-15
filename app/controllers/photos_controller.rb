@@ -1,17 +1,53 @@
 class PhotosController < ApplicationController
   def index
-    #should have a form to add a new photo
+    @photos = Photo.all
+    render({ :template => "photo_templates/index" })
+  end
+
+  def show
+    @photo = Photo.find(params.fetch("photo_id"))
+    @comments = @photo.comments
 
     render({ :template => "photo_templates/show" })
   end
 
-  def show
-    #display the details of a photo
+  def post
+    #create a new photo
 
-    #displays the comments that have been made on the photo
+    p = Photo.new(params)
 
-    #have a form to add a comment to the photo
+    if p.save
+      @message = "Photo was successfully created."
+    else
+      @message = "Photo was not created."
+    end
+    redirect_to photos_path
+  end
 
-    render({ :template => "photo_templates/show" })
+  def delete
+    #delete a photo
+    @photo = Photo.find(params.fetch("photo_id"))
+
+    @photo.destroy
+    redirect_to photos_path
+  end
+
+  def update_photo
+    @photo = Photo.find(params.fetch("photo_id"))
+    photo.image = params[:image_url]
+    photo
+    photo.save
+  end
+
+  def add_comment
+    @photo = Photo.find(params.fetch("photo_id"))
+
+    comment = Comment.new
+    comment.body = params.fetch("input_comment")
+    comment.author_id = params.fetch("author_id")
+    comment.photo_id = params.fetch("photo_id")
+
+    comment.save
+    redirect_to ("/photos/#{@photo.id}")
   end
 end

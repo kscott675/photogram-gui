@@ -30,6 +30,8 @@ class UsersController < ApplicationController
 
   def show
     #display the username of the user
+    @photo = Photo.find(params[:photo_id])
+    
    @user = User.find_by_username(params[:username])
     #the photos posted by the user
 
