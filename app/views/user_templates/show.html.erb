@@ -1,0 +1,62 @@
+<h1> <%= @user.username %></h1>
+
+<dl>
+  <dt> ID</dt>
+  <dd><%= @user.id %></dd>
+  <dt>Edit user</dt>
+  <dd>
+    <form action="/users/<%= @user.username%>/update" method="post">
+
+      <label for="new_username">Username</label>
+
+      <input type="text" id="new_username" name="new_username" value="<%= @user.username%>">
+      <button>
+        Update user
+      </button>
+    </form>
+    <dd>
+    </dl>
+    <h2> Own photos (<%= @user.own_photos.count %>) </h2>
+
+    <table border="1">
+      <tr>
+        <th>
+          Image
+        </th>
+        <th>
+          Owner
+        </th>
+        <th>
+          Caption
+        </th>
+        <th>
+          Posted
+        </th>
+        <th>
+        </th>
+      </tr>
+      <tr>
+        <% @user.own_photos.each do |photo| %>
+          <tr>
+            <td>
+              <img src="<%= photo.image %>" height="300px">
+            </td>
+            <td>
+              <%= photo.poster.username %>
+            </td>
+            <td>
+              <%= photo.caption %>
+            </td>
+            <td>
+              <%= photo.created_at %>
+            </td>
+            <td>
+              <a href="/photos/<%= photo.id %>">
+                Show details
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+
+      No more photos available

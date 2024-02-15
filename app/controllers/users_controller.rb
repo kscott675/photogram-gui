@@ -10,6 +10,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    @user = User.find(params[:id])
+
+    #@user.username = params.fetch("new_username")
+    if @user.update(user_params)
+      redirect_to user_path(@user)
+    else
+      render :edit
+    end
+  end
+
   def index
     #display all the users
     @users = User.all
@@ -19,7 +30,7 @@ class UsersController < ApplicationController
 
   def show
     #display the username of the user
-
+   @user = User.find_by_username(params[:username])
     #the photos posted by the user
 
     render({ :template => "user_templates/show" })
